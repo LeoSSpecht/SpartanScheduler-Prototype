@@ -10,6 +10,9 @@ class MainPage extends React.Component {
   }
 
   // componentDidMount() {
+  //   fetch("http://localhost:3001/name")
+  //     .then(res => res.json())
+  //     .then(data => this.setState({ name: data.name }))
   // }
 
   render() {
@@ -17,7 +20,6 @@ class MainPage extends React.Component {
         <div className="">
           <NavBar/>
           <Calendar/>
-          <LoginPage/>
         </div>
     );
   };
