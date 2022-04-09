@@ -1,8 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 // import DatePicker from "react-datepicker";
 
 // import "react-datepicker/dist/react-datepicker.css";
 import "./styles/Calendar.scss"
+
+
+
+const getDate= (time, day_of_the_week)  => {
+  console.log(day_of_the_week, time)
+  return (
+    <h1>{time} on {day_of_the_week} </h1>
+  );
+}
+
+function Table (day_of_the_week) {
+
+  return(
+    <div>
+    {
+      ["08:00am", "08:30am","09:00am", "09:30am","10:00am", "10:30am", "11:00am", "11:30am", "12:00pm",
+      "12:30pm", "01:00pm", "01:30pm", "02:00pm", "02:30pm", "03:00pm",
+      "03:30pm", "04:00pm", "04:30pm", "05:00pm", "05:30pm", "06:00pm",
+      "07:30pm", "08:00pm", "08:30pm", "09:00pm"
+      ].map((i) => (
+            <tr key={i}>
+              <td className="eachday" val={i} onClick={() => getDate(i, day_of_the_week)} key={i}>{i}</td>
+            </tr>
+      ))
+    }
+  </div>
+)
+}
 
 const Calendar = () => {
 
@@ -17,9 +45,32 @@ const Calendar = () => {
             <th scope="col">Wednesday</th>
             <th scope="col">Thursday</th>
             <th scope="col">Friday</th>
+            <th scope="col">Saturday</th>
           </tr>
         </thead>
-        <button>Submit</button>
+        <tbody>
+        <th>
+          {Table("Sunday")}
+        </th>
+        <th>
+          {Table("Monday")}
+        </th>
+        <th>
+          {Table("Tuesday")}
+        </th>
+        <th>
+          {Table("Wednesday")}
+        </th>
+        <th>
+          {Table("Thursday")}
+        </th>
+        <th>
+          {Table("Friday")}
+        </th>
+        <th>
+          {Table("Saturday")}
+        </th>
+        </tbody>
       </div>
     </div>
   );
