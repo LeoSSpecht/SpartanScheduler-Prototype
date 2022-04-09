@@ -8,7 +8,8 @@ import "./styles/Calendar.scss"
 let lis = []
 
 const getDate= (time, day_of_the_week)  => {
-  
+  var square = document.getElementById("work");
+  square.style.BackgroundColor = "#184138";
   return (
     console.log(day_of_the_week, time)
   );
@@ -25,7 +26,7 @@ function Table (day_of_the_week) {
       "07:30pm", "08:00pm", "08:30pm", "09:00pm"
       ].map((i) => (
             <tr key={i}>
-              <td className="eachday" val={i} onClick={() => getDate(i, day_of_the_week)} key={i}>{i}</td>
+              <td className="eachday"  val={i} onClick={() => getDate(i, day_of_the_week)} key={i}>{i}</td>
             </tr>
       ))
     }
@@ -49,29 +50,29 @@ const Calendar = () => {
             <th scope="col">Saturday</th>
           </tr>
         </thead>
-        <tbody>
-        <th>
+
+        <td>
           {Table("Sunday")}
-        </th>
-        <th>
+        </td>
+        <td>
           {Table("Monday")}
-        </th>
-        <th>
+        </td>
+        <td>
           {Table("Tuesday")}
-        </th>
-        <th>
+        </td>
+        <td>
           {Table("Wednesday")}
-        </th>
-        <th>
+        </td>
+        <td>
           {Table("Thursday")}
-        </th>
-        <th>
+        </td>
+        <td>
           {Table("Friday")}
-        </th>
-        <th>
+        </td>
+        <td>
           {Table("Saturday")}
-        </th>
-        </tbody>
+        </td>
+      
       </div>
     </div>
   );
