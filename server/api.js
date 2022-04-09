@@ -10,7 +10,7 @@ app.get("/", function(req, res) {
 })
 
 app.get("/name", function(req, res) {
-  res.send({"name": "Spartan Hack"}) // Should be json format
+  res.send({"name": "Leo and Joel are gods"}) // Should be json format
 })
 
 app.listen(3001, () => {
