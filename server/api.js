@@ -16,3 +16,5 @@ app.get("/name", function(req, res) {
 app.listen(3001, () => {
   console.log("app listening on port 3001")
 })
+
+// export GOOGLE_APPLICATION_CREDENTIALS="/mnt/c/Users/sugui/Desktop/SpartaHack/server/secrets/key.json"
