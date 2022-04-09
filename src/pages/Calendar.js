@@ -8,9 +8,9 @@ import "./styles/Calendar.scss"
 
 const getDate= (time, day_of_the_week)  => {
   console.log(day_of_the_week, time)
-  return (
-    <h1>{time} on {day_of_the_week} </h1>
-  );
+  // return (
+  //   <h1>{time} on {day_of_the_week} </h1>
+  // );
 }
 
 function Table (day_of_the_week) {
@@ -37,8 +37,8 @@ const Calendar = () => {
   return (
     <div className="table_settings">
       <div className="table table-bordered ">
-        <thead>
-          <tr>
+        {/* <thead> */}
+          {/* <tr> */}
             <th scope="col">Sunday</th>
             <th scope="col">Monday</th>
             <th scope="col">Tuesday</th>
@@ -46,30 +46,30 @@ const Calendar = () => {
             <th scope="col">Thursday</th>
             <th scope="col">Friday</th>
             <th scope="col">Saturday</th>
-          </tr>
-        </thead>
+          {/* </tr> */}
+        {/* </thead> */}
         <tbody>
-        <th>
+        <td>
           {Table("Sunday")}
-        </th>
-        <th>
+        </td>
+        <td>
           {Table("Monday")}
-        </th>
-        <th>
+        </td>
+        <td>
           {Table("Tuesday")}
-        </th>
-        <th>
+        </td>
+        <td>
           {Table("Wednesday")}
-        </th>
-        <th>
+        </td>
+        <td>
           {Table("Thursday")}
-        </th>
-        <th>
+        </td>
+        <td>
           {Table("Friday")}
-        </th>
-        <th>
+        </td>
+        <td>
           {Table("Saturday")}
-        </th>
+        </td>
         </tbody>
       </div>
     </div>
