@@ -23,8 +23,6 @@ function LoginPage({history}){
       }
     })
     const data = await res.json();
-    
-
     setLoginData(data);
     localStorage.setItem('loginData', JSON.stringify(data));
     window.location = '/';
