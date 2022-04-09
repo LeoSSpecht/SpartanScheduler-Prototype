@@ -1,5 +1,13 @@
-$h1_font_size: 8;
+@import url("https://cdn.syncfusion.com/ej2/material.css");
+
+$h1_font_size: 3rem;
 $container-bg : #dfedf2;
-#h1 {
+.h1 {
   font-size: $h1_font_size;
+}
+
+
+.sa {
+  display: flex;
+  justify-content: space-around;
 }
