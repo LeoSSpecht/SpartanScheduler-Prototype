@@ -10,9 +10,11 @@ app.get("/", function(req, res) {
 })
 
 app.get("/name", function(req, res) {
-  res.send({"name": "Spartan Hack"}) // Should be json format
+  res.send({"name": "Leo and Joel are gods"}) // Should be json format
 })
 
 app.listen(3001, () => {
-  console.log("app listening on port 3000")
+  console.log("app listening on port 3001")
 })
+
+// export GOOGLE_APPLICATION_CREDENTIALS="/mnt/c/Users/sugui/Desktop/SpartaHack/server/secrets/key.json"
