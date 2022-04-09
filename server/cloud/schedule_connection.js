@@ -3,7 +3,6 @@ const {BigQuery} = require('@google-cloud/bigquery');
 function insertHandler(err, apiResponse) {
     if (err) {
         console.log("Something went wrong");
-        // console.log();
       }
   }
 
@@ -16,8 +15,6 @@ async function insert_line() {
 
     const line = {"user_name":"joel", "schedule_day":"2022-01-01", "schedule":"01011"};
     table.insert(line,insertHandler);
-    // console.log(result);
-
   }
 
 async function get_line() {
@@ -41,7 +38,4 @@ async function get_line() {
     const [rows] = await table.query(options)
     console.log('Rows:');
     rows.forEach(row => console.log(row));
-
   }
-
-get_line();
