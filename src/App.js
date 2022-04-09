@@ -1,14 +1,14 @@
 import React from 'react'
-import {BrowserRouter, Switch, Route} from 'react-router-dom'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
 
 import MainPage from "./pages/MainPage"
 
 function App() {
   return (
     <BrowserRouter>
-      <Switch>
-        <Route exact path='/' component={MainPage}/>
-      </Switch>
+      <Routes>
+        <Route exact path='/' element={<MainPage />}/>
+      </Routes>
     </BrowserRouter>
   );
 }
