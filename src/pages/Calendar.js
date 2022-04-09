@@ -1,15 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 // import DatePicker from "react-datepicker";
 
 // import "react-datepicker/dist/react-datepicker.css";
 import "./styles/Calendar.scss"
 
 
+let lis = []
 
 const getDate= (time, day_of_the_week)  => {
-  console.log(day_of_the_week, time)
+  
   return (
-    <h1>{time} on {day_of_the_week} </h1>
+    console.log(day_of_the_week, time)
   );
 }
 
