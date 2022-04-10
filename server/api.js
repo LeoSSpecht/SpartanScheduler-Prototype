@@ -7,6 +7,7 @@ const path = require('path');
 const { OAuth2Client } = require('google-auth-library')
 
 var things = require("./cloud/schedule_connection");
+const { Logger } = require("sass");
 
 dotenv.config();
 app.use(cors())
@@ -44,7 +45,49 @@ app.post("/api/v1/auth/google",async (req, res) =>{
   res.json({ name, email});
 })
 
-app
+app.post("/save_data",async (req, res) =>{
+
+    var data = req.body;
+    var week = data.times
+    var first_day = new Date(data.first_date)
+    var formattedMonth = ((first_day.getMonth()+1).toString()).padStart(2,"0")
+    var formattedDay = ((first_day.getDate().toString()).toString()).padStart(2,"0")
+    var first_day_formatted = first_day.getFullYear().toString()+ "-"+formattedMonth +"-" +formattedDay
+
+    var username = data.user_id
+    var final_body =[]
+
+    // Creates data to append or update
+    for(var i = 0; i < 7; i++){
+      var cur_date = new Date(first_day.setDate(first_day.getDate() + 1));
+      var formattedMonth = ((cur_date.getMonth()+1).toString()).padStart(2,"0")
+      var formattedDay = ((cur_date.getDate().toString()).toString()).padStart(2,"0")
+      var date_string = cur_date.getFullYear().toString()+ "-"+formattedMonth +"-" +formattedDay
+      var schedule = week[i].join('')
+
+      final_body.push({
+        "user_name":username,
+        "schedule_day":date_string,
+        "schedule":schedule
+      })
+    }
+
+    if(things.check_if_date_exist(first_day_formatted,username)){
+      // Have to update
+      for(var i = 0; i < final_body.length; i++){
+        var date_to_delete = final_body[i].schedule_day
+        things.update_existing_rows(date_to_delete,username)
+      }
+    }
+    else{
+      things.save_times(final_body)
+      console.log("inserted")
+    }
+
+
+    
+    res.status(200);
+})
 
 app.listen(3001, () => {
   console.log("app listening on port 3001")

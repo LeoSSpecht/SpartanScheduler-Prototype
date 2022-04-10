@@ -25,16 +25,12 @@ const getDate= (time, day_of_the_week)  => {
   var ind_day = days_of_week.indexOf(day_of_the_week)
   var ind_time = alltimes.indexOf(time)
   var id = ind_day.toString()+ind_time.toString()
-  // console.log(id)
   var cell = document.getElementById(id)
-  //red, green
   var colors = ["rgba(233, 169, 169, 0.797)","rgb(220, 255, 220)"]
 
   chosen_times.push((day_of_the_week + " " + time))
   cell.style.backgroundColor = "rgb(220, 255, 220)"
   availability[ind_day][ind_time] = (availability[ind_day][ind_time]+1)%2
-  console.log(availability)
-  console.log(chosen_times)
 }
 
 function Table (day_of_the_week) {
@@ -52,6 +48,23 @@ function Table (day_of_the_week) {
 )
 }
 
+function call_save(){
+  var link = "http://localhost:3001/save_data"
+  var user = JSON.parse(localStorage.loginData).email;
+  var date = "2022-01-02"
+  const res = fetch(link, {
+    method: "POST",
+    body: JSON.stringify({
+    times: availability,
+    type: "tutor",
+    user_id: user,
+    first_date:date
+  }),
+  headers: {
+    "Content-Type": "application/json"
+  }  
+  })
+}
 
 const Calendar = () => {
   generate_matrix()
@@ -106,7 +119,7 @@ const Calendar = () => {
         </div>
       </div>
       <div className="col-3 justify-content-center">
-        <button type="button" className="btn btn-outline-primary">Primary</button>
+        <button type="button" className="btn btn-outline-primary" onClick={call_save}>Save</button>
       </div>
     </div>
   );
