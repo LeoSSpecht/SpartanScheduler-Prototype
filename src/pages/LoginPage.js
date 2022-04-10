@@ -14,6 +14,7 @@ function LoginPage({history}){
 
   const handleLoginTutor = async googleData => {
     // get info from google
+    
     const res = await fetch("http://localhost:3001/api/v1/auth/google", {
         method: "POST",
         body: JSON.stringify({
@@ -24,6 +25,8 @@ function LoginPage({history}){
         "Content-Type": "application/json"
       }
     })
+    console.log("hi")
+    
     const data = await res.json();
     setLoginData(data);
     localStorage.setItem('loginData', JSON.stringify(data));

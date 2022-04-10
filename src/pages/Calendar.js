@@ -9,6 +9,8 @@ let alltimes = ["08:00am", "08:30am","09:00am", "09:30am","10:00am", "10:30am", 
 ]
 let days_of_week = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
+let names = ["Steve Jobs", "Bill Gates", "Leonardo Specht", "Sparty", "Joel Nataren"]
+
 var chosen_times = []
 
 function generate_matrix(){
@@ -20,14 +22,29 @@ function generate_matrix(){
     }
   }
 }
+async function get_user(){
+  var link = "http://localhost:3001/get_users"
+  const res = await fetch(link, {
+    method: "GET",
+  headers: {
+    "Content-Type": "application/json"
+  }  
+  })
+
+  var users = []
+  var data = await res.json();
+  data["users"].forEach(doc => {
+    users.push(doc);
+  });
+  names = users
+}
 
 const getDate= (time, day_of_the_week)  => {
   var ind_day = days_of_week.indexOf(day_of_the_week)
   var ind_time = alltimes.indexOf(time)
   var id = ind_day.toString()+ind_time.toString()
-  var cell = document.getElementById(id)
   var colors = ["rgba(233, 169, 169, 0.797)","rgb(220, 255, 220)"]
-
+  // console.log("id is" + id)
   var cell = document.getElementById(id);
   var new_status = (availability[ind_day][ind_time]+1)%2
   availability[ind_day][ind_time] = new_status
@@ -36,6 +53,7 @@ const getDate= (time, day_of_the_week)  => {
 }
 
 function Table (day_of_the_week) {
+  
   var ind_day = days_of_week.indexOf(day_of_the_week)
   return(
     <div>
@@ -52,7 +70,7 @@ function Table (day_of_the_week) {
 
 function call_save(){
   var link = "http://localhost:3001/save_data"
-  var user = JSON.parse(localStorage.loginData).email;
+  var user = JSON.parse(localStorage.loginData).name;
   var date = "2022-01-02"
   const res = fetch(link, {
     method: "POST",
@@ -68,10 +86,31 @@ function call_save(){
   })
 }
 
-function load_calendar(tutor_name){
-  
+async function load_calendar(tutor_name){
+  var link = "http://localhost:3001/load_calendar"
+  var user = tutor_name;
+  var date = "2022-01-02"
+  const res = await fetch(link, {
+    method: "POST",
+    body: JSON.stringify({
+    user_id: user,
+    first_date:date
+  }),
+  headers: {
+    "Content-Type": "application/json"
+  }  
+  })
+  var data = await res.json();
+  for(var day = 0; day < data["time"].length; day++){
+    // Check why length is so big
+    for(var time = 0; time < 25; time++){
+      var id = day.toString()+time.toString();
+      var colors = ["rgba(233, 169, 169, 0.797)","rgb(220, 255, 220)"]
+      var cell = document.getElementById(id);
+      cell.style.backgroundColor = colors[data["time"][day][time]];
+    }
+  }
 }
-
 
 const Calendar = () => {
   generate_matrix()
@@ -82,24 +121,20 @@ const Calendar = () => {
           Tutors List
         </button>
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a className="dropdown-item" href="#" onClick={() => console.log("steve")}>Steve Jobs</a></li>
-          <li><a className="dropdown-item" href="#">Bill Gates</a></li>
-          <li><a className="dropdown-item" href="#">Elon Musk</a></li>
+          {names.map((name) => {
+              return <li><a className="dropdown-item" href="#" onClick={() => load_calendar(name)}>{name}</a></li>;
+          })}
         </ul>
       </div>
       <div className="table_settings col-6">
         <div className="table table-bordered ">
-          {/* <thead> */}
-            {/* <tr> */}
-              <th scope="col">Sunday</th>
-              <th scope="col">Monday</th>
-              <th scope="col">Tuesday</th>
-              <th scope="col">Wednesday</th>
-              <th scope="col">Thursday</th>
-              <th scope="col">Friday</th>
-              <th scope="col">Saturday</th>
-            {/* </tr> */}
-          {/* </thead> */}
+            <th scope="col">Sunday</th>
+            <th scope="col">Monday</th>
+            <th scope="col">Tuesday</th>
+            <th scope="col">Wednesday</th>
+            <th scope="col">Thursday</th>
+            <th scope="col">Friday</th>
+            <th scope="col">Saturday</th>
           <tbody>
           <td className= "m-0" >
             {Table("Sunday")}

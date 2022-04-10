@@ -41,8 +41,26 @@ app.post("/api/v1/auth/google",async (req, res) =>{
   //register user in google cloud
 
   upsert(users, { name, email});
-  res.status(201);
+  res.status(200);
   res.json({ name, email});
+})
+
+app.post("/load_calendar", async(req,res)=>{
+  var data = req.body;
+  var username = data.user_id
+  var first_day = new Date(data.first_date)
+  var all_dates = []
+  for(var i = 0; i < 7; i++){
+    var cur_date = new Date(first_day.setDate(first_day.getDate() + 1));
+    var formattedMonth = ((cur_date.getMonth()+1).toString()).padStart(2,"0")
+    var formattedDay = ((cur_date.getDate().toString()).toString()).padStart(2,"0")
+    var date_string = cur_date.getFullYear().toString()+ "-"+formattedMonth +"-" +formattedDay
+    all_dates.push(date_string)
+  }
+  var times = await things.load_times(username,all_dates);
+  // console.log(times)
+  res.status(200);
+  res.json({"time": times})
 })
 
 app.post("/save_data",async (req, res) =>{
@@ -81,12 +99,16 @@ app.post("/save_data",async (req, res) =>{
       things.save_times(final_body,username)
       console.log("inserted")
     // }
-
-
-    
     res.status(200);
+
 })
 
+app.get("/get_users", async(req,res) => {
+  var users = await things.load_users();
+  res.status(200);
+  res.json({"users": users})
+
+})
 app.listen(3001, () => {
   console.log("app listening on port 3001")
 })
