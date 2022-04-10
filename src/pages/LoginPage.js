@@ -12,11 +12,13 @@ function LoginPage({history}){
       : null
   );
 
-  const handleLogin = async googleData => {
+  const handleLoginTutor = async googleData => {
+    // get info from google
     const res = await fetch("http://localhost:3001/api/v1/auth/google", {
         method: "POST",
         body: JSON.stringify({
-        token: googleData.tokenId
+        token: googleData.tokenId,
+        type: "tutor"
       }),
       headers: {
         "Content-Type": "application/json"
@@ -32,8 +34,8 @@ function LoginPage({history}){
     <div className="login-page row justify-content-center">
       <GoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        buttonText="Log in with Google"
-        onSuccess={handleLogin}
+        buttonText="Log in with as a tutor"
+        onSuccess={handleLoginTutor}
         // onFailure={handleLogin}
         cookiePolicy={'single_host_origin'}
     ></GoogleLogin>

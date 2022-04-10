@@ -25,6 +25,8 @@ const getDate= (time, day_of_the_week)  => {
   var id = ind_day.toString()+ind_time.toString()
   // console.log(id)
   var cell = document.getElementById(id)
+  //red, green
+  var colors = ["rgba(233, 169, 169, 0.797)","rgb(220, 255, 220)"]
 
 
   cell.style.backgroundColor = "rgb(220, 255, 220)"

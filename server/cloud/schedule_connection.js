@@ -1,4 +1,5 @@
 const {BigQuery} = require('@google-cloud/bigquery');
+var bigqueryClient = new BigQuery();
 
 function insertHandler(err, apiResponse) {
     if (err) {
@@ -8,7 +9,7 @@ function insertHandler(err, apiResponse) {
 
 async function insert_line() {
     // Creates a client
-    var bigqueryClient = new BigQuery();
+    
     // Create the dataset
     var dataset = bigqueryClient.dataset("ss");
     var table = dataset.table("schedules");
@@ -19,7 +20,6 @@ async function insert_line() {
 
 async function get_line() {
     // Creates a client
-    var bigqueryClient = new BigQuery();
     // Create the dataset
     var dataset = bigqueryClient.dataset("ss");
     var table = dataset.table("schedules");
@@ -39,3 +39,5 @@ async function get_line() {
     console.log('Rows:');
     rows.forEach(row => console.log(row));
   }
+
+  module.exports = {get_line,insert_line};

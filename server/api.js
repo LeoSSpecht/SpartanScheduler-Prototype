@@ -1,11 +1,12 @@
 // api/server.js
-
 const express = require("express")
 const app = express()
 const cors = require("cors")
 const dotenv = require('dotenv');
 const path = require('path');
 const { OAuth2Client } = require('google-auth-library')
+
+var things = require("./cloud/schedule_connection");
 
 dotenv.config();
 app.use(cors())
@@ -29,18 +30,21 @@ function upsert(array, item) {
 
 app.post("/api/v1/auth/google",async (req, res) =>{
   const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
-  const { token }  = req.body;
+  const token  = req.body.token;
+  const type = req.body.type;
   const ticket = await client.verifyIdToken({
       idToken: token,
       audience: process.env.CLIENT_ID
   });
   const { name, email } = ticket.getPayload();    
+  //register user in google cloud
 
   upsert(users, { name, email});
   res.status(201);
   res.json({ name, email});
 })
 
+app
 
 app.listen(3001, () => {
   console.log("app listening on port 3001")
