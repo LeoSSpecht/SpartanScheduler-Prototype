@@ -4,6 +4,7 @@ import {createRoot} from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "./index.scss"
+import "bootstrap"
 
 
 const rootElement = document.getElementById('root');

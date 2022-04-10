@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import "./styles/Calendar.scss"
 
 let availability = []
@@ -8,6 +8,8 @@ let alltimes = ["08:00am", "08:30am","09:00am", "09:30am","10:00am", "10:30am", 
 "07:30pm", "08:00pm", "08:30pm", "09:00pm"
 ]
 let days_of_week = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+
+let chosen_times = []
 
 function generate_matrix(){
   for(var i = 0; i < 7 ; i++){
@@ -28,21 +30,20 @@ const getDate= (time, day_of_the_week)  => {
   //red, green
   var colors = ["rgba(233, 169, 169, 0.797)","rgb(220, 255, 220)"]
 
-
+  chosen_times.push((day_of_the_week + " " + time))
   cell.style.backgroundColor = "rgb(220, 255, 220)"
   availability[ind_day][ind_time] = (availability[ind_day][ind_time]+1)%2
-  // console.log(availability)
+  console.log(availability)
+  console.log(chosen_times)
 }
 
 function Table (day_of_the_week) {
   var ind_day = days_of_week.indexOf(day_of_the_week)
-  
   return(
     <div>
     {
       alltimes.map((i) => (
-            
-            <tr key={i}>
+            <tr className="eachday" key={i}>
               <td className="eachday" val={i} id = {ind_day.toString()+ alltimes.indexOf(i).toString()} onClick={() => getDate(i, day_of_the_week)} key={i}>{i}</td>
             </tr>
       ))
@@ -55,42 +56,57 @@ function Table (day_of_the_week) {
 const Calendar = () => {
   generate_matrix()
   return (
-    <div className="table_settings">
-      <div className="table table-bordered ">
-        {/* <thead> */}
-          {/* <tr> */}
-            <th scope="col">Sunday</th>
-            <th scope="col">Monday</th>
-            <th scope="col">Tuesday</th>
-            <th scope="col">Wednesday</th>
-            <th scope="col">Thursday</th>
-            <th scope="col">Friday</th>
-            <th scope="col">Saturday</th>
-          {/* </tr> */}
-        {/* </thead> */}
-        <tbody>
-        <td>
-          {Table("Sunday")}
-        </td>
-        <td>
-          {Table("Monday")}
-        </td>
-        <td>
-          {Table("Tuesday")}
-        </td>
-        <td>
-          {Table("Wednesday")}
-        </td>
-        <td>
-          {Table("Thursday")}
-        </td>
-        <td>
-          {Table("Friday")}
-        </td>
-        <td>
-          {Table("Saturday")}
-        </td>
-        </tbody>
+    <div className="row">
+      <div className="dropdown col-3 student_dropdown" id = "student_dropdown">
+        <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Tutors List
+        </button>
+        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a className="dropdown-item" href="#">Steve Jobs</a></li>
+          <li><a className="dropdown-item" href="#">Bill Gates</a></li>
+          <li><a className="dropdown-item" href="#">Elon Musk</a></li>
+        </ul>
+      </div>
+      <div className="table_settings col-6">
+        <div className="table table-bordered ">
+          {/* <thead> */}
+            {/* <tr> */}
+              <th scope="col">Sunday</th>
+              <th scope="col">Monday</th>
+              <th scope="col">Tuesday</th>
+              <th scope="col">Wednesday</th>
+              <th scope="col">Thursday</th>
+              <th scope="col">Friday</th>
+              <th scope="col">Saturday</th>
+            {/* </tr> */}
+          {/* </thead> */}
+          <tbody>
+          <td className= "m-0" >
+            {Table("Sunday")}
+          </td>
+          <td m-0>
+            {Table("Monday")}
+          </td>
+          <td>
+            {Table("Tuesday")}
+          </td>
+          <td>
+            {Table("Wednesday")}
+          </td>
+          <td>
+            {Table("Thursday")}
+          </td>
+          <td className="m-0">
+            {Table("Friday")}
+          </td>
+          <td>
+            {Table("Saturday")}
+          </td>
+          </tbody>
+        </div>
+      </div>
+      <div className="col-3 justify-content-center">
+        <button type="button" className="btn btn-outline-primary">Primary</button>
       </div>
     </div>
   );
