@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const { OAuth2Client } = require('google-auth-library')
 
-var things = require("./cloud/schedule_connection");
+var things = require("./cloud/firebase");
 const { Logger } = require("sass");
 
 dotenv.config();
@@ -52,8 +52,6 @@ app.post("/save_data",async (req, res) =>{
     var first_day = new Date(data.first_date)
     var formattedMonth = ((first_day.getMonth()+1).toString()).padStart(2,"0")
     var formattedDay = ((first_day.getDate().toString()).toString()).padStart(2,"0")
-    var first_day_formatted = first_day.getFullYear().toString()+ "-"+formattedMonth +"-" +formattedDay
-
     var username = data.user_id
     var final_body =[]
 
@@ -66,23 +64,23 @@ app.post("/save_data",async (req, res) =>{
       var schedule = week[i].join('')
 
       final_body.push({
-        "user_name":username,
+        // "user_name":username,
         "schedule_day":date_string,
         "schedule":schedule
       })
     }
 
-    if(things.check_if_date_exist(first_day_formatted,username)){
-      // Have to update
-      for(var i = 0; i < final_body.length; i++){
-        var date_to_delete = final_body[i].schedule_day
-        things.update_existing_rows(date_to_delete,username)
-      }
-    }
-    else{
-      things.save_times(final_body)
+    // if(things.check_if_date_exist(first_day_formatted,username)){
+    //   // Have to update
+    //   for(var i = 0; i < final_body.length; i++){
+    //     var date_to_delete = final_body[i].schedule_day
+    //     things.update_existing_rows(date_to_delete,username)
+    //   }
+    // }
+    // else{
+      things.save_times(final_body,username)
       console.log("inserted")
-    }
+    // }
 
 
     

@@ -16,11 +16,10 @@ function generate_matrix(){
     // Later change for getting info from the database
     availability.push([])
     for(var z = 0; z < alltimes.length ; z++){
-      availability[i].push(1)
+      availability[i].push(0)
     }
   }
 }
-
 
 const getDate= (time, day_of_the_week)  => {
   var ind_day = days_of_week.indexOf(day_of_the_week)
@@ -69,6 +68,9 @@ function call_save(){
   })
 }
 
+function load_calendar(tutor_name){
+  
+}
 
 
 const Calendar = () => {
@@ -80,7 +82,7 @@ const Calendar = () => {
           Tutors List
         </button>
         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a className="dropdown-item" href="#">Steve Jobs</a></li>
+          <li><a className="dropdown-item" href="#" onClick={() => console.log("steve")}>Steve Jobs</a></li>
           <li><a className="dropdown-item" href="#">Bill Gates</a></li>
           <li><a className="dropdown-item" href="#">Elon Musk</a></li>
         </ul>
@@ -126,7 +128,7 @@ const Calendar = () => {
       <div className="col-1">
       </div>
       <div className="col-2 justify-content-center">
-        <button type="button" className="btn mt-5 btn-outline-primary">Save</button>
+        <button type="button" className="btn mt-5 btn-outline-primary" onClick={call_save}>Save</button>
       </div>
     </div>
   );

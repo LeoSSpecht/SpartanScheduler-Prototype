@@ -4,12 +4,13 @@ import NavBar from "./NavBar"
 
 class MainPage extends React.Component {
 
-  state = {
-    name: "Joel"
-  }
 
 
   render() {
+      if(localStorage.loginData === ""){
+        // redirect to login
+        window.location = '/login';
+      }
       return (
         <div className="">
           <NavBar/>

@@ -31,14 +31,16 @@ function LoginPage({history}){
   }
 
   return(
-    <div className="login-page row justify-content-center">
-      <GoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        buttonText="Log in with as a tutor"
-        onSuccess={handleLoginTutor}
-        // onFailure={handleLogin}
-        cookiePolicy={'single_host_origin'}
-    ></GoogleLogin>
+    <div className="login-page ">
+        <div className = "log-in-button">
+          <GoogleLogin
+            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            buttonText="Log in with as a tutor"
+            onSuccess={handleLoginTutor}
+            // onFailure={handleLogin}
+            cookiePolicy={'single_host_origin'}
+        ></GoogleLogin>
+      </div>
     </div>
     );
 

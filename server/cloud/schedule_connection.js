@@ -8,9 +8,6 @@ function insertHandler(err, apiResponse) {
   }
 
 async function insert_line() {
-    // Creates a client
-    
-    // Create the dataset
     var dataset = bigqueryClient.dataset("ss");
     var table = dataset.table("schedules");
 
