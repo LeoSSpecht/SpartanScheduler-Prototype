@@ -1,6 +1,5 @@
 import React from "react"
 import Calendar from "./Calendar";
-import LoginPage from  "./LoginPage"
 import NavBar from "./NavBar"
 
 class MainPage extends React.Component {
@@ -9,11 +8,6 @@ class MainPage extends React.Component {
     name: "Joel"
   }
 
-  // componentDidMount() {
-  //   fetch("http://localhost:3001/name")
-  //     .then(res => res.json())
-  //     .then(data => this.setState({ name: data.name }))
-  // }
 
   render() {
       return (
