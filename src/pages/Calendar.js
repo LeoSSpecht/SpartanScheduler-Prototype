@@ -9,7 +9,7 @@ let alltimes = ["08:00am", "08:30am","09:00am", "09:30am","10:00am", "10:30am", 
 ]
 let days_of_week = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
-let chosen_times = []
+var chosen_times = []
 
 function generate_matrix(){
   for(var i = 0; i < 7 ; i++){
@@ -21,6 +21,7 @@ function generate_matrix(){
   }
 }
 
+
 const getDate= (time, day_of_the_week)  => {
   var ind_day = days_of_week.indexOf(day_of_the_week)
   var ind_time = alltimes.indexOf(time)
@@ -28,9 +29,11 @@ const getDate= (time, day_of_the_week)  => {
   var cell = document.getElementById(id)
   var colors = ["rgba(233, 169, 169, 0.797)","rgb(220, 255, 220)"]
 
-  chosen_times.push((day_of_the_week + " " + time))
-  cell.style.backgroundColor = "rgb(220, 255, 220)"
-  availability[ind_day][ind_time] = (availability[ind_day][ind_time]+1)%2
+  var cell = document.getElementById(id);
+  var new_status = (availability[ind_day][ind_time]+1)%2
+  availability[ind_day][ind_time] = new_status
+  cell.style.backgroundColor = colors[new_status];
+
 }
 
 function Table (day_of_the_week) {
@@ -40,7 +43,7 @@ function Table (day_of_the_week) {
     {
       alltimes.map((i) => (
             <tr className="eachday" key={i}>
-              <td className="eachday" val={i} id = {ind_day.toString()+ alltimes.indexOf(i).toString()} onClick={() => getDate(i, day_of_the_week)} key={i}>{i}</td>
+              <td className="eachday" col="red" val={i} id = {ind_day.toString()+ alltimes.indexOf(i).toString()} onClick={() => getDate(i, day_of_the_week)} key={i}>{i}</td>
             </tr>
       ))
     }
@@ -65,6 +68,8 @@ function call_save(){
   }  
   })
 }
+
+
 
 const Calendar = () => {
   generate_matrix()
@@ -118,8 +123,10 @@ const Calendar = () => {
           </tbody>
         </div>
       </div>
-      <div className="col-3 justify-content-center">
-        <button type="button" className="btn btn-outline-primary" onClick={call_save}>Save</button>
+      <div className="col-1">
+      </div>
+      <div className="col-2 justify-content-center">
+        <button type="button" className="btn mt-5 btn-outline-primary">Save</button>
       </div>
     </div>
   );
