@@ -18,7 +18,7 @@ app.get("/", function(req, res) {
 })
 
 app.get("/name", function(req, res) {
-  res.send({"name": "Leo and Joel are gods"}) // Should be json format
+  res.send({"name": "Chris and Joel are gods"}) // Should be json format
 })
 
 const users = [];

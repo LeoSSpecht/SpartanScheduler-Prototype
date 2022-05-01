@@ -1,5 +1,5 @@
 const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
-const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
+const { getFirestore} = require('firebase-admin/firestore');
 
 const serviceAccount = require('/mnt/c/Users/sugui/Desktop/SpartaHack/server/secrets/key.json');
 initializeApp({
@@ -8,7 +8,6 @@ initializeApp({
 
 function save_times(lines,name){
     const db = getFirestore();
-    // var batch = db.batch();
     const docRef = db.collection('schedules').doc(name);
 
     var all ={}

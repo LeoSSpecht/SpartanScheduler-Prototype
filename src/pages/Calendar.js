@@ -1,5 +1,9 @@
-import React from "react";
+import React, {useEffect, useState}  from  "react";
 import "./styles/Calendar.scss"
+import {get_current_user,auth, db} from './firebase_login';
+import {onAuthStateChanged} from "firebase/auth";
+import {useNavigate} from 'react-router-dom'
+import { doc, getDoc} from "firebase/firestore";
 
 let availability = []
 let alltimes = ["08:00am", "08:30am","09:00am", "09:30am","10:00am", "10:30am", "11:00am", "11:30am", "12:00pm",
@@ -10,6 +14,7 @@ let alltimes = ["08:00am", "08:30am","09:00am", "09:30am","10:00am", "10:30am", 
 let days_of_week = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
 let names = ["Steve Jobs", "Bill Gates", "Leonardo Specht", "Sparty", "Joel Nataren"]
+
 
 var chosen_times = []
 
@@ -39,12 +44,12 @@ async function get_user(){
   names = users
 }
 
+
 const getDate= (time, day_of_the_week)  => {
   var ind_day = days_of_week.indexOf(day_of_the_week)
   var ind_time = alltimes.indexOf(time)
   var id = ind_day.toString()+ind_time.toString()
   var colors = ["rgba(233, 169, 169, 0.797)","rgb(220, 255, 220)"]
-  // console.log("id is" + id)
   var cell = document.getElementById(id);
   var new_status = (availability[ind_day][ind_time]+1)%2
   availability[ind_day][ind_time] = new_status
@@ -68,9 +73,9 @@ function Table (day_of_the_week) {
 )
 }
 
-function call_save(){
+function call_save(uid){
   var link = "http://localhost:3001/save_data"
-  var user = JSON.parse(localStorage.loginData).name;
+  var user = uid;
   var date = "2022-01-02"
   const res = fetch(link, {
     method: "POST",
@@ -112,9 +117,32 @@ async function load_calendar(tutor_name){
   }
 }
 
-const Calendar = () => {
-  generate_matrix()
-  return (
+async function getRole(id){
+  const colect = doc(db, "Users", id);
+  const u = await getDoc(colect);
+  if(u.exists()) {
+    return u.data().role;
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+  }
+}
+
+function return_role(role_state){
+  if(Object.keys(role_state).length == 0){
+    // return "Save"
+    return true;
+  }
+  else{
+    // return role_state.current_role;
+    return false;
+  }
+  
+}
+
+function tutorCalendar(role,tutorUser){
+  load_calendar("Leonardo Specht")
+  return(
     <div className="row">
       <div className="dropdown col-3 student_dropdown" id = "student_dropdown">
         <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -163,10 +191,100 @@ const Calendar = () => {
       <div className="col-1">
       </div>
       <div className="col-2 justify-content-center">
-        <button type="button" className="btn mt-5 btn-outline-primary" onClick={call_save}>Save</button>
+        <button type="button" className="btn mt-5 btn-outline-primary" onClick={() => call_save(tutorUser.uid)}>{role.current_role}</button>
       </div>
     </div>
   );
+}
+
+function studentCalendar(role){
+  return(
+    <div className="row">
+      <div className="dropdown col-3 student_dropdown" id = "student_dropdown">
+        <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Tutors List
+        </button>
+        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          {names.map((name) => {
+              return <li><a className="dropdown-item" href="#" onClick={() => load_calendar(name)}>{name}</a></li>;
+          })}
+        </ul>
+      </div>
+      <div className="table_settings col-6">
+        <div className="table table-bordered ">
+            <th scope="col">Sunday</th>
+            <th scope="col">Monday</th>
+            <th scope="col">Tuesday</th>
+            <th scope="col">Wednesday</th>
+            <th scope="col">Thursday</th>
+            <th scope="col">Friday</th>
+            <th scope="col">Saturday</th>
+          <tbody>
+          <td className= "m-0" >
+            {Table("Sunday")}
+          </td>
+          <td m-0>
+            {Table("Monday")}
+          </td>
+          <td>
+            {Table("Tuesday")}
+          </td>
+          <td>
+            {Table("Wednesday")}
+          </td>
+          <td>
+            {Table("Thursday")}
+          </td>
+          <td className="m-0">
+            {Table("Friday")}
+          </td>
+          <td>
+            {Table("Saturday")}
+          </td>
+          </tbody>
+        </div>
+      </div>
+      <div className="col-1">
+      </div>
+      <div className="col-2 justify-content-center">
+        <button type="button" className="btn mt-5 btn-outline-primary" onClick={() => call_save()}>{role.current_role}</button>
+      </div>
+    </div>
+  );
+}
+function Calendar(){
+  let navigate = useNavigate();
+  const [user, setUser] = useState({});
+  const [role, setRole] = useState({});
+
+  // Makes sure user is logged in
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
+      if (currentuser) {
+        setUser(currentuser);
+        const getting_role = getRole(currentuser.uid).then((res) => {
+          // Once it gets the user role set that variable
+          setRole({current_role: res});
+        });
+      } else {
+        navigate('/login')
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  generate_matrix()
+  return (
+  <div>
+    {return_role(role) ? 
+      (<div>Loading</div>) :
+      (
+      tutorCalendar(role,user)
+      )
+    }
+</div>)
 };
 
 export default Calendar;
